@@ -27,7 +27,7 @@ public class PlayingFieldController : MonoBehaviour
         topLeftPointOfTheField = new Vector2(-width / 2, height / 2);
         spriteShift = Tools.GetSpriteShift(defaultTilePrefab); // все спрайты префабов одинаковые
         FillTheField();
-    }    
+    } 
 
     private void FillTheField()
     {
@@ -37,7 +37,7 @@ public class PlayingFieldController : MonoBehaviour
             {
                 GameObject prefabToInstall;
 
-                switch(playingField.MatrixOfTypes[y,x])
+                switch(playingField.MatrixOfTiles[y,x].TypeOfTile)
                 {
                     case Type.Circle:
                         prefabToInstall = circleTilePrefab;
@@ -59,11 +59,26 @@ public class PlayingFieldController : MonoBehaviour
                         break;
                 }
                 
-                playingField.MatrixOfTilesPrefabs[y, x] = Instantiate (prefabToInstall,
+                playingField.MatrixOfTiles[y, x].TilePrefab = Instantiate (prefabToInstall,
                     new Vector3(topLeftPointOfTheField.x + x + spriteShift.x, topLeftPointOfTheField.y - y - spriteShift.y, 0),
                     Quaternion.identity,
                     tilesParentPrefab.transform);
             }
+        }
+    }
+
+    // Для теста
+    private void RecreateAndFillTheField()
+    {
+        playingField = new Field(width, height);       
+        FillTheField();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            RecreateAndFillTheField();
         }
     }
 }
