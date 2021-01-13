@@ -85,8 +85,7 @@ public class Field
                 else
                 {
                     //excludedType = randomType;
-                    randomType = GetRandomTypeOfTile();
-                    Debug.Log(randomType.ToString());                    
+                    randomType = GetRandomTypeOfTile();                                     
                 }
             }
         }
