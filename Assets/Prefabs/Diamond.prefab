@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 517901388696689495}
   - component: {fileID: 7553680757271219056}
   - component: {fileID: 6762603310809939639}
-  - component: {fileID: 1376847485764264506}
+  - component: {fileID: -4955857292706517227}
   m_Layer: 0
   m_Name: Diamond
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1376847485764264506
+--- !u!114 &-4955857292706517227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,6 +118,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1372152253495088081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20369ac38d202214a9cb0b94730f3db5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a0933293e8858147b36c3ef4da3d392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

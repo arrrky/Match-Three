@@ -10,8 +10,6 @@ public enum Type
     Triangle = 5,
 }
 
-// TODO - подумать - нужен ли такой класс вообще
-
 public class Tile
 {
     private Type typeOfTile;
