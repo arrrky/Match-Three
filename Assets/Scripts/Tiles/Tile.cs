@@ -18,16 +18,11 @@ public class Tile
     private GameObject tilePrefab;
 
     public Type TypeOfTile { get => typeOfTile; set => typeOfTile = value; }
-    public GameObject TilePrefab { get => tilePrefab; set => tilePrefab = value; }
-
-    public Tile()
-    {
-        
-    }
-
+    public GameObject TilePrefab { get => tilePrefab; set => tilePrefab = value; }  
+  
     public Tile(Type typeOfTile)
     {
-        this.typeOfTile = typeOfTile;
+        this.typeOfTile = typeOfTile;        
         this.tilePrefab = null;
     }    
 }
