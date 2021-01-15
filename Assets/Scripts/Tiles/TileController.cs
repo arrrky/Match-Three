@@ -2,35 +2,46 @@
 using System.Collections.Generic;
 using System.Security;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class TileController : MonoBehaviour
 {
     public Vector2Int TileIndex { get; set; }
 
     private SpriteRenderer tileColor;
+    private const float BlinkTime = 0.3f;
+    
     private static TileController _selectedTile;
+    private static bool _isHighlighted;
 
-    private readonly List<Vector2> rayDirection = new List<Vector2>();
+    private readonly List<Vector2> rayDirection = new List<Vector2>
+    {
+        Vector2.up,
+        Vector2.down,
+        Vector2.left,
+        Vector2.right
+    };
+
+    private readonly Dictionary<string, Color> tileColorsDictionary = new Dictionary<string, Color>
+    {
+        {"defaultColor", Color.white},
+        {"selectedColor", Color.yellow},
+        {"errorColor", Color.red},
+        {"highlightColor", Color.green},
+    };
+
     private List<GameObject> nearTiles = new List<GameObject>();
 
     private void Start()
     {
         tileColor = gameObject.GetComponent<SpriteRenderer>();
-        RayDirectionListInit();
-    }
-
-    private void RayDirectionListInit()
-    {
-        rayDirection.Add(Vector2.up);
-        rayDirection.Add(Vector2.down);
-        rayDirection.Add(Vector2.left);
-        rayDirection.Add(Vector2.right);
     }
 
     private void OnMouseDown()
     {
         if (_selectedTile == this)
         {
+            HighlightNearTiles();
             Deselect();
             return;
         }
@@ -49,11 +60,13 @@ public class TileController : MonoBehaviour
 
     private void SwapTiles(Component thisTile, Component selectedTile)
     {
-        if (!IsSwapValid())
-            return;
+        HighlightNearTiles();
 
-        // Debug.Log($"This tile: {thisTile.name}");
-        // Debug.Log($"Selected tile: {selectedTile.name}");
+        if (!IsChosenTileNear())
+        {
+            StartErrorColorBlinkRoutine(this);
+            return;
+        }
 
         var thisTileGameObject = thisTile.gameObject;
         var thisTileGameObjectTransformPosition = thisTileGameObject.transform.position;
@@ -68,13 +81,13 @@ public class TileController : MonoBehaviour
 
     private void Select()
     {
-        SetColor(Color.yellow);
+        SetColor(tileColorsDictionary["selectedColor"]);
         _selectedTile = this;
     }
 
     private void Deselect()
     {
-        SetColor(Color.white);
+        SetColor(tileColorsDictionary["defaultColor"]);
         _selectedTile = null;
     }
 
@@ -93,16 +106,12 @@ public class TileController : MonoBehaviour
                 nearTiles.Add(hit.collider.gameObject);
             }
         }
-
-        foreach (var tile in nearTiles)
-        {
-           Debug.Log($"Near tiles: {tile.name}");
-        }
+        
+        HighlightNearTiles();
     }
 
-    private bool IsSwapValid()
+    private bool IsChosenTileNear()
     {
-        Debug.Log(_selectedTile.nearTiles.Count);
         bool result = false;
         for (int index = 0; index < _selectedTile.nearTiles.Count; index++)
         {
@@ -113,8 +122,32 @@ public class TileController : MonoBehaviour
                 result = true;
             }
         }
+
         _selectedTile.nearTiles.Clear();
 
         return result;
+    }
+
+    private void StartErrorColorBlinkRoutine(TileController tileController)
+    {
+        StartCoroutine(ErrorColorBlinkRoutine(tileController));
+    }
+    
+    private IEnumerator ErrorColorBlinkRoutine(TileController tileController)
+    {
+        tileController.tileColor.color = tileColorsDictionary["errorColor"];
+        yield return  new WaitForSeconds(BlinkTime);
+        tileController.tileColor.color = tileColorsDictionary["defaultColor"];
+    }
+
+    private void HighlightNearTiles()
+    {
+        Color color = _isHighlighted ? tileColorsDictionary["defaultColor"] : tileColorsDictionary["highlightColor"];
+
+        foreach (GameObject tile in _selectedTile.nearTiles)
+        {
+            tile.gameObject.GetComponent<TileController>().SetColor(color);
+        }
+        _isHighlighted = !_isHighlighted;
     }
 }

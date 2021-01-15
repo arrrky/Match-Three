@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using MiscTools;
 
 public class PlayingFieldController : MonoBehaviour
 {
+    public static PlayingFieldController Instance;
+    
     [SerializeField] GameObject tilesParentPrefab;
 
     [SerializeField] GameObject defaultTilePrefab;
@@ -37,6 +40,18 @@ public class PlayingFieldController : MonoBehaviour
     public Vector2 SpriteShift { get; set; }
 
     #endregion
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     void Start()
     {

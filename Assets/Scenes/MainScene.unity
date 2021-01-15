@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,8 +118,6 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-    maxJobWorkers: 0
-    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -153,12 +151,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilesParentPrefab: {fileID: 261374181}
-  defaultTilePrefab: {fileID: 4877686006567020106, guid: dc1c533375146324fbac547fb8353d8a, type: 3}
-  circleTilePrefab: {fileID: 5859120032004673996, guid: 3034924c1fa0d6a4e84853c3b70c6a27, type: 3}
-  diamondTilePrefab: {fileID: 1372152253495088081, guid: 806b4534f467e9a41ad873a03e3d9212, type: 3}
-  starTilePrefab: {fileID: 287438232094198039, guid: 8e1d6c0dca1b2114e9221d4418bee46a, type: 3}
-  squareTilePrefab: {fileID: 6524702758075645557, guid: 7508b9d4813a76448ae726908dd98686, type: 3}
-  triangleTilePrefab: {fileID: 4419178969405577587, guid: 49f95c26b4408df4895ca5f0f1ef5e91, type: 3}
+  defaultTilePrefab: {fileID: 4877686006567020106, guid: dc1c533375146324fbac547fb8353d8a,
+    type: 3}
+  circleTilePrefab: {fileID: 5859120032004673996, guid: 3034924c1fa0d6a4e84853c3b70c6a27,
+    type: 3}
+  diamondTilePrefab: {fileID: 1372152253495088081, guid: 806b4534f467e9a41ad873a03e3d9212,
+    type: 3}
+  starTilePrefab: {fileID: 287438232094198039, guid: 8e1d6c0dca1b2114e9221d4418bee46a,
+    type: 3}
+  squareTilePrefab: {fileID: 6524702758075645557, guid: 7508b9d4813a76448ae726908dd98686,
+    type: 3}
+  triangleTilePrefab: {fileID: 4419178969405577587, guid: 49f95c26b4408df4895ca5f0f1ef5e91,
+    type: 3}
 --- !u!4 &261374183
 Transform:
   m_ObjectHideFlags: 0
