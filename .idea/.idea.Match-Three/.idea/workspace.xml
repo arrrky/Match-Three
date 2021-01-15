@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="8a935a76-d8d1-4d61-a93c-0a8c5d13516a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MiscTools/Tools.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MiscTools/Tools.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Match-Three/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Match-Three/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayingField/PlayingFieldController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayingField/PlayingFieldController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tiles/Tile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tiles/Tile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tiles/TileController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tiles/TileController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +37,9 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/MiscTools/Tools.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Tiles/TypeOfTiles.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Tiles/TileController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Tiles/TypeOfTile.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayingField/PlayingFieldController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Tiles/TileController.cs" />
       </list>
     </option>
   </component>
@@ -66,7 +84,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610688054820</updated>
-      <workItem from="1610688058467" duration="7620000" />
+      <workItem from="1610688058467" duration="14891000" />
     </task>
     <servers />
   </component>
@@ -75,6 +93,17 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -83,9 +112,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610688101848" />
-    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog" timestamp="1610695549155">
+    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog" timestamp="1610704361014">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1610695549155" />
+    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1610704361014" />
   </component>
 </project>

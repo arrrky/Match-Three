@@ -84,6 +84,8 @@ public class PlayingFieldController : MonoBehaviour
                         topLeftPointOfTheField.y - y - SpriteShift.y, 0),
                     Quaternion.identity,
                     tilesParentPrefab.transform);
+                
+                PlayingField.MatrixOfTiles[y,x].TilePrefab.GetComponent<TileController>().TileIndex = new Vector2Int(x,y);
             }
         }
     }
