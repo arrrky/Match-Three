@@ -1,41 +1,58 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security;
 using UnityEngine;
 
 public class TileController : MonoBehaviour
 {
     private SpriteRenderer tileColor;
-    private static TileController selectedTile;
+    private static TileController _selectedTile;
 
-
-    void Start()
+    private void Start()
     {
         tileColor = gameObject.GetComponent<SpriteRenderer>();
     }
 
     private void OnMouseDown()
     {
-        if (selectedTile!= null)
+        if (_selectedTile == this) return;
+
+        if (_selectedTile != null)
         {
-            selectedTile.Deselect();
+            SwapTiles(this, _selectedTile);
+            _selectedTile.Deselect();
         }
-        selectedTile = this;
-        Select();
+        else
+        {
+            Select();
+        }
     }
 
-    protected void Select()
+    private void SwapTiles(Component thisTile, Component selectedTile)
     {
-        tileColor.color = Color.yellow;     
+        Debug.Log($"This tile: {thisTile.name}");
+        Debug.Log($"Selected tile: {selectedTile.name}");
+
+        var thisTileGameObject = thisTile.gameObject;
+        var thisTileGameObjectTransformPosition = thisTileGameObject.transform.position;
+
+        var selectedTileGameObject = selectedTile.gameObject;
+        var selectedTileGameObjectTransformPosition = selectedTileGameObject.transform.position;
+
+        selectedTileGameObject.transform.position = thisTileGameObjectTransformPosition;
+        thisTileGameObject.transform.position = selectedTileGameObjectTransformPosition;
     }
 
-    protected void Deselect()
+
+    private void Select()
     {
-        tileColor.color = Color.white;    
+        tileColor.color = Color.yellow;
+        _selectedTile = this;
     }
 
-    private void SwapTiles()
+    private void Deselect()
     {
-
+        tileColor.color = Color.white;
+        _selectedTile = null;
     }
-
 }

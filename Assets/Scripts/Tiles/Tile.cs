@@ -1,24 +1,14 @@
 ﻿using UnityEngine;
 
-public enum Type
-{
-    Default  = 0,
-    Circle   = 1,
-    Diamond  = 2,
-    Square   = 3,
-    Star     = 4,
-    Triangle = 5,
-}
-
 public class Tile
 {
-    private Type typeOfTile;
+    private TypeOfTile typeOfTile;
     private GameObject tilePrefab;
 
-    public Type TypeOfTile { get => typeOfTile; set => typeOfTile = value; }
+    public TypeOfTile TypeOfTile { get => typeOfTile; set => typeOfTile = value; }
     public GameObject TilePrefab { get => tilePrefab; set => tilePrefab = value; }  
   
-    public Tile(Type typeOfTile)
+    public Tile(TypeOfTile typeOfTile)
     {
         this.typeOfTile = typeOfTile;        
         this.tilePrefab = null;
