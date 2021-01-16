@@ -12,6 +12,7 @@
           </e>
           <e p="PlayingField" t="Include">
             <e p="Field.cs" t="Include" />
+            <e p="MatchesChecker.cs" t="Include" />
             <e p="PlayingFieldController.cs" t="Include" />
           </e>
           <e p="Tiles" t="Include">

@@ -48,7 +48,7 @@ public class TileController : MonoBehaviour
 
         if (_selectedTile != null)
         {
-            SwapTiles(this, _selectedTile);
+            SwapTilesOnScene(this, _selectedTile);
             _selectedTile.Deselect();
         }
         else
@@ -57,27 +57,6 @@ public class TileController : MonoBehaviour
             DetectNearTiles();
         }
     }
-
-    private void SwapTiles(Component thisTile, Component selectedTile)
-    {
-        HighlightNearTiles();
-
-        if (!IsChosenTileNear())
-        {
-            StartErrorColorBlinkRoutine(this);
-            return;
-        }
-
-        var thisTileGameObject = thisTile.gameObject;
-        var thisTileGameObjectTransformPosition = thisTileGameObject.transform.position;
-
-        var selectedTileGameObject = selectedTile.gameObject;
-        var selectedTileGameObjectTransformPosition = selectedTileGameObject.transform.position;
-
-        selectedTileGameObject.transform.position = thisTileGameObjectTransformPosition;
-        thisTileGameObject.transform.position = selectedTileGameObjectTransformPosition;
-    }
-
 
     private void Select()
     {
@@ -109,6 +88,44 @@ public class TileController : MonoBehaviour
         
         HighlightNearTiles();
     }
+    
+    private void SwapTilesOnScene(TileController thisTile, TileController selectedTile)
+    {
+        HighlightNearTiles();
+
+        if (!IsChosenTileNear())
+        {
+            StartErrorColorBlinkRoutine(this);
+            return;
+        }
+        
+        PlayingFieldController.Instance.SwapTilesInMatrix(thisTile.TileIndex, selectedTile.TileIndex);
+
+        MatchesChecker mc = new MatchesChecker();
+        Dictionary<Vector2Int, TypeOfTile> tilesToDelete = mc.GetTilesToDelete();
+
+        if (tilesToDelete.Count == 0)
+        {
+            //Если пришел пустой словарь - значит совпадения этот ход не вызвал - меняем обратно
+            PlayingFieldController.Instance.SwapTilesInMatrix(selectedTile.TileIndex, thisTile.TileIndex);
+            return;
+        }
+
+        foreach (var item in tilesToDelete)
+        {
+            Debug.Log($"Tile to delete {item.Value.ToString()} : {item.Key}");
+        }
+
+        var thisTileGameObject = thisTile.gameObject;
+        var thisTileGameObjectTransformPosition = thisTileGameObject.transform.position;
+
+        var selectedTileGameObject = selectedTile.gameObject;
+        var selectedTileGameObjectTransformPosition = selectedTileGameObject.transform.position;
+
+        selectedTileGameObject.transform.position = thisTileGameObjectTransformPosition;
+        thisTileGameObject.transform.position = selectedTileGameObjectTransformPosition;
+        
+    }
 
     private bool IsChosenTileNear()
     {
@@ -117,8 +134,8 @@ public class TileController : MonoBehaviour
         {
             if (this.gameObject == _selectedTile.nearTiles[index])
             {
-                Debug.Log($"This object name: {gameObject.name}");
-                Debug.Log($"Near tile name: {_selectedTile.nearTiles[index].name}");
+                // Debug.Log($"This object name: {gameObject.name}");
+                // Debug.Log($"Near tile name: {_selectedTile.nearTiles[index].name}");
                 result = true;
             }
         }
