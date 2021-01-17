@@ -10,6 +10,12 @@ namespace MiscTools
             var bounds = spriteRenderer.bounds;
             return new Vector2(bounds.extents.x, bounds.extents.y);
         }
+        
+        public static Vector2 GetSpriteShift(Sprite sprite)
+        {
+            var bounds = sprite.bounds;
+            return new Vector2(bounds.extents.x, bounds.extents.y);
+        }
     }
 }
 

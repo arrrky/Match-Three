@@ -136,7 +136,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &261374182
 MonoBehaviour:
@@ -147,17 +147,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 261374181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 407131fb1612e5a4cbef485b2059a09f, type: 3}
+  m_Script: {fileID: 11500000, guid: 08e712e47c42dbc41a0d256ab9530666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilesParentPrefab: {fileID: 261374181}
-  tilesPrefabsList:
-  - {fileID: 5859120032004673996, guid: 3034924c1fa0d6a4e84853c3b70c6a27, type: 3}
-  - {fileID: 4877686006567020106, guid: dc1c533375146324fbac547fb8353d8a, type: 3}
-  - {fileID: 1372152253495088081, guid: 806b4534f467e9a41ad873a03e3d9212, type: 3}
-  - {fileID: 6524702758075645557, guid: 7508b9d4813a76448ae726908dd98686, type: 3}
-  - {fileID: 287438232094198039, guid: 8e1d6c0dca1b2114e9221d4418bee46a, type: 3}
-  - {fileID: 4419178969405577587, guid: 49f95c26b4408df4895ca5f0f1ef5e91, type: 3}
+  spritesOfTiles:
+  - {fileID: 21300000, guid: 069c7b260b4d0b9418162cf71e04578c, type: 3}
+  - {fileID: 21300000, guid: 0a884ad263f5f854697b7281b643148f, type: 3}
+  - {fileID: 21300000, guid: 8936f0ffd57b0a8479e8bb70b9404e0a, type: 3}
+  - {fileID: 21300000, guid: 8064966fa35fbaf4986260c1388ed4ff, type: 3}
+  - {fileID: 21300000, guid: 0dff3864d6f5d934e8cd04f4dec6d25a, type: 3}
+  tilePrefab: {fileID: 4877686006567020106, guid: dc1c533375146324fbac547fb8353d8a,
+    type: 3}
+  tilesParent: {fileID: 261374181}
+  height: 10
+  width: 10
 --- !u!4 &261374183
 Transform:
   m_ObjectHideFlags: 0

@@ -14,10 +14,12 @@
             <e p="Field.cs" t="Include" />
             <e p="MatchesChecker.cs" t="Include" />
             <e p="PlayingFieldController.cs" t="Include" />
+            <e p="PlayingFieldControllerNew.cs" t="Include" />
           </e>
           <e p="Tiles" t="Include">
             <e p="Tile.cs" t="Include" />
             <e p="TileController.cs" t="Include" />
+            <e p="TileControllerNew.cs" t="Include" />
             <e p="TypeOfTile.cs" t="Include" />
           </e>
         </e>

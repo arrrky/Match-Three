@@ -102,8 +102,12 @@ public class MatchesChecker
             tilesToDelete.Add(item.Key, item.Value);
          }
       }
-      //Удаляем последний элемент в словаре, который был добавлен в Check цикле, т.к. он уже несовпадающий
-      tilesToDelete.Remove(tilesToDelete.ElementAt(tilesToDelete.Count - 1).Key);
+      //Удаляем последний элемент в словаре, который был добавлен в Check цикле (, т.к. он уже несовпадающий
+
+      if (tilesToDelete.ElementAt(tilesToDelete.Count - 1).Key != tilesToDelete.ElementAt(tilesToDelete.Count - 2).Key)
+      {
+         tilesToDelete.Remove(tilesToDelete.ElementAt(tilesToDelete.Count - 1).Key);
+      }
    }
 
    private Field TransposePlayingFieldMatrix()

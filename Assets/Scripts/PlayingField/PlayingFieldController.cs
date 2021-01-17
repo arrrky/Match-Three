@@ -10,7 +10,7 @@ public class PlayingFieldController : MonoBehaviour
 {
     public static PlayingFieldController Instance;
 
-    [SerializeField] GameObject tilesParentPrefab;
+    [SerializeField] private GameObject tilesParentPrefab;
     [SerializeField] private List<GameObject> tilesPrefabsList = new List<GameObject>();
 
     private readonly Dictionary<string, GameObject> tilesPrefabsDictionary = new Dictionary<string, GameObject>();
@@ -69,7 +69,8 @@ public class PlayingFieldController : MonoBehaviour
         TypeEnumValuesInit();
         PlayingField = new Field(width, height);
         topLeftPointOfTheField = new Vector2(-width / 2.0f, height / 2.0f);
-        SpriteShift = Tools.GetSpriteShift(tilesPrefabsDictionary["Default"]); // все спрайты префабов одинаковые
+        SpriteShift =
+            Tools.GetSpriteShift(tilesPrefabsDictionary["Default"]); // все спрайты префабов одинаковые по размеру
         FillTheField();
     }
 
@@ -161,20 +162,16 @@ public class PlayingFieldController : MonoBehaviour
 
     public void SwapTilesInMatrix(Vector2Int tile0Index, Vector2Int tile1Index)
     {
-        
-        
         Tile tempTile = PlayingField.MatrixOfTiles[tile0Index.x, tile0Index.y];
 
         PlayingField.MatrixOfTiles[tile0Index.x, tile0Index.y] = PlayingField.MatrixOfTiles[tile1Index.x, tile1Index.y];
         PlayingField.MatrixOfTiles[tile1Index.x, tile1Index.y] = tempTile;
-
-        // DeleteMatches(temp);
     }
 
-    private void DeleteMatches(Dictionary<Vector2Int, TypeOfTile> tileToDelete)
+    public void DeleteMatches(Dictionary<Vector2Int, TypeOfTile> tileToDelete)
     {
         List<Vector2Int> temp = new List<Vector2Int>();
-        
+
         foreach (var tile in tileToDelete)
         {
             temp.Add(tile.Key);
@@ -182,7 +179,28 @@ public class PlayingFieldController : MonoBehaviour
 
         foreach (var tileIndex in temp)
         {
-            Destroy(PlayingField.MatrixOfTiles[tileIndex.x, tileIndex.y].TilePrefab);
+            Destroy(PlayingField.MatrixOfTiles[tileIndex.x, tileIndex.y].TilePrefab); //удаляем на сцене
+            PlayingField.MatrixOfTiles[tileIndex.x, tileIndex.y] = null; // в матрице
+        }
+
+        MoveEmptyTiles();
+    }
+
+    private void MoveEmptyTiles()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height - 1; y++)
+            {
+                if (PlayingField.MatrixOfTiles[x, y + 1] == null)
+                {
+                    Tile temp = PlayingField.MatrixOfTiles[x, y];
+
+                    PlayingField.MatrixOfTiles[x, y].TilePrefab.transform.position += Vector3.down;
+                    PlayingField.MatrixOfTiles[x, y] = PlayingField.MatrixOfTiles[x, y + 1];
+                    PlayingField.MatrixOfTiles[x, y + 1] = temp;
+                }
+            }
         }
     }
 }
