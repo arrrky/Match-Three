@@ -6,15 +6,23 @@ using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
-using Zenject;
+
 using Random = UnityEngine.Random;
 
 public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
+    #region TilesPrefabs
+    [SerializeField] private GameObject circle;
+    [SerializeField] private GameObject triangle;
+    [SerializeField] private GameObject diamond;
+    [SerializeField] private GameObject square;
+    [SerializeField] private GameObject star;
+    #endregion
+
     [SerializeField] private List<Sprite> spritesOfTiles = new List<Sprite>();
-    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private GameObject defaultTilePrefab;
     [SerializeField] private GameObject tilesParent;
 
     [SerializeField] [Range(2, 10)] private int height = 10;
@@ -23,15 +31,10 @@ public class FieldManager : MonoBehaviour
     private GameObject[,] field;
     private Vector2 bottomLeftPositionOfTheField;
     private Vector2 spriteShift;
-
-    private ScoreManager scoreManager;
-
-    [Inject]
-    private void Init(ScoreManager scoreManager)
-    {
-        this.scoreManager = scoreManager;
-    }
     
+    public event Action<int> MatchesFound;
+    public event Action TilesSwapped;
+
     private void Awake()
     {
         if (Instance == null)
@@ -50,16 +53,15 @@ public class FieldManager : MonoBehaviour
         bottomLeftPositionOfTheField = new Vector2(-width / 2.0f, -height / 2.0f);
         spriteShift = Tools.GetSpriteShift(spritesOfTiles[0]);
         FieldInit();
-        scoreManager.AddScore();
     }
-
+    
     private void FieldInit()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                GameObject newTile = Instantiate(tilePrefab, tilesParent.transform);
+                GameObject newTile = Instantiate(defaultTilePrefab, tilesParent.transform);
                 SpriteRenderer newTileRenderer = newTile.GetComponent<SpriteRenderer>();
 
                 List<Sprite> validSprites = GetValidSpritesList(x, y);
@@ -137,7 +139,7 @@ public class FieldManager : MonoBehaviour
         tile0Renderer.sprite = tile1Renderer.sprite;
         tile1Renderer.sprite = tempSprite;
 
-        bool isSwapValid = IsAnyMatch();
+        bool isSwapValid = GetMatchesCount() > 0;
 
         if (!isSwapValid)
         {
@@ -149,14 +151,26 @@ public class FieldManager : MonoBehaviour
         {
             do
             {
+                OnMatchesFound(GetMatchesCount());
                 UpdateField();
 
-            } while (IsAnyMatch());
-
+            } while (GetMatchesCount() > 0);
         }
+        
+        OnTilesSwapped();
     }
 
-    private bool IsAnyMatch()
+    private void OnMatchesFound(int matchesCount)
+    {
+        MatchesFound?.Invoke(matchesCount);
+    }
+
+    private void OnTilesSwapped()
+    {
+        TilesSwapped?.Invoke();
+    }
+
+    private int GetMatchesCount()
     {
         HashSet<SpriteRenderer> matchedTiles = new HashSet<SpriteRenderer>();
 
@@ -187,7 +201,7 @@ public class FieldManager : MonoBehaviour
             spriteRenderer.sprite = null;
         }
 
-        return matchedTiles.Count > 0;
+        return matchedTiles.Count;
     }
     
     private List<SpriteRenderer> GetColumnsMatches(int x, int y, Sprite currentSprite)
@@ -244,5 +258,41 @@ public class FieldManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void EraseField()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                GetSpriteRendererAt(x, y).sprite = null;
+            }
+        }
+    }
+
+    private void SwapAnimation(Vector2Int tile0Index, Vector2Int tile1Index)
+    {
+        SpriteRenderer tile0SpriteRenderer = GetSpriteRendererAt(tile0Index.x, tile0Index.y);
+        SpriteRenderer tile1SpriteRenderer = GetSpriteRendererAt(tile1Index.x, tile1Index.y);
+        
+        Transform tile0Transfrom = tile0SpriteRenderer.gameObject.transform;
+        Transform tile1Transfrom = tile1SpriteRenderer.gameObject.transform;
+        
+        tile0SpriteRenderer.gameObject.SetActive(false);
+        tile1SpriteRenderer.gameObject.SetActive(false);
+        
+        //TODO - инстанировать 2 префаба в тех же координатах (что и основные объекты)
+        //TODO - поменять их местами (не моментально - а за n-ное время)
+        //TODO - удалить их и включить основные объекты обратно
+        //TODO - как вариант для оптимизации завести массив трансформов
+        
+
+        
+        
+        
+
+
+
     }
 }
