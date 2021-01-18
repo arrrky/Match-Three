@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private FieldManager fieldManager;
 
     [SerializeField] [Range(10,1000)] private int minScoreIncrease = 100;
-    [SerializeField] [Range(100, 10000)] private int goal = 10000;
+    [SerializeField] [Range(100, 10000)] private int goal = 5000;
     
     public int Score { get; private set; }
 
@@ -29,7 +29,6 @@ public class ScoreManager : MonoBehaviour
     private void AddScore(int matchedTilesCount)
     {
         Score += minScoreIncrease * (matchedTilesCount - 2); //минимум может прийти 3 и множитель будет 1
-        Debug.Log($"Score: {Score}");
         OnScoreUpdated();
 
         if (Score >= Goal)

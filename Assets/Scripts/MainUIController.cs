@@ -42,7 +42,7 @@ public class MainUIController : MonoBehaviour
     public void SetGameOverUI()
     {
         HideUI();
-        lblGameOver.text = movesManager.AvailableMovesCount == 0 ? "Game Over" : "You win!";
+        lblGameOver.text = movesManager.AvailableMovesCount == 0 ? "Game Over" : $"You win!\nMoves left: {movesManager.AvailableMovesCount}";
         lblGameOver.gameObject.SetActive(true);
         btnRestart.gameObject.SetActive(true);
     }
@@ -51,6 +51,7 @@ public class MainUIController : MonoBehaviour
     {
         lblScore.gameObject.SetActive(false);
         lblMoves.gameObject.SetActive(false);
+        lblGoal.gameObject.SetActive(false);
     }
     
     private void UpdateScore()
