@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security;
 using UnityEngine;
 
 public class TileController : MonoBehaviour
 {
-    public Vector2Int TileIndex { get; set; }
     private SpriteRenderer tileRenderer;
     
     private static TileController _selectedTile;
@@ -31,6 +29,8 @@ public class TileController : MonoBehaviour
         Vector2.left,
         Vector2.right
     };
+    
+    public Vector2Int TileIndex { get; set; }
 
     public static event Action TileClicked;
     public static event Action WrongTileClicked;
@@ -42,7 +42,11 @@ public class TileController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        OnTIleClicked();
+        if (FieldManager.IsSwapping || GameController.IsOnPause)
+            return;
+        
+        OnTileClicked();
+        
         if (_selectedTile == this)
         {
             HighlightNearTiles();
@@ -138,10 +142,11 @@ public class TileController : MonoBehaviour
         {
             tile.gameObject.GetComponent<TileController>().SetColor(color);
         }
+        
         _isHighlighted = !_isHighlighted;
     }
 
-    private void OnTIleClicked()
+    private void OnTileClicked()
     {
         TileClicked?.Invoke();
     }
@@ -150,5 +155,4 @@ public class TileController : MonoBehaviour
     {
         WrongTileClicked?.Invoke();
     }
-
 }

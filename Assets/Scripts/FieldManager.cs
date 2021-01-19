@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using MiscTools;
-using NUnit.Framework.Constraints;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
+    public static bool IsSwapping;
+
     [SerializeField] private ScoreManager scoreManager;
 
     #region TilesPrefabs
-
+    
+    private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
+    
     [SerializeField] private GameObject circle;
     [SerializeField] private GameObject triangle;
     [SerializeField] private GameObject diamond;
@@ -23,7 +23,6 @@ public class FieldManager : MonoBehaviour
 
     #endregion
 
-    [SerializeField] private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
     [SerializeField] private List<Sprite> spritesOfTiles = new List<Sprite>();
     [SerializeField] private GameObject defaultTilePrefab;
     [SerializeField] private GameObject tilesParent;
@@ -36,7 +35,6 @@ public class FieldManager : MonoBehaviour
     private Vector2 spriteShift;
 
     private float timeForSwapAnimation = 0.3f;
-    private bool isShifting;
 
     public event Action<int> MatchesFound;
     public static event Action TilesSwapped;
@@ -58,7 +56,7 @@ public class FieldManager : MonoBehaviour
         FillPrefabsDictionary();
         field = new GameObject[width, height];
         bottomLeftPositionOfTheField = new Vector2(-width / 2.0f, -height / 2.0f);
-        spriteShift = Tools.GetSpriteShift(spritesOfTiles[0]);
+        spriteShift = GetSpriteShift(spritesOfTiles[0]);
         FieldInit();
     }
 
@@ -162,6 +160,7 @@ public class FieldManager : MonoBehaviour
         if (!isSwapValid)
         {
             StartCoroutine(SwapAnimation(tile0Position, tile1Position));
+            
             tempSprite = tile0Renderer.sprite;
             tile0Renderer.sprite = tile1Renderer.sprite;
             tile1Renderer.sprite = tempSprite;
@@ -175,6 +174,7 @@ public class FieldManager : MonoBehaviour
                 
                 OnMatchesFound(GetMatchesCount());
                 UpdateField();
+                
             } while (GetMatchesCount() > 0);
         }
 
@@ -202,6 +202,7 @@ public class FieldManager : MonoBehaviour
                 SpriteRenderer currentSpriteRenderer = GetSpriteRendererAt(x, y);
 
                 List<SpriteRenderer> rowsMatches = GetRowsMatches(x, y, currentSpriteRenderer.sprite);
+                
                 if (rowsMatches.Count >= 2)
                 {
                     matchedTiles.UnionWith(rowsMatches);
@@ -209,6 +210,7 @@ public class FieldManager : MonoBehaviour
                 }
 
                 List<SpriteRenderer> columnsMatches = GetColumnsMatches(x, y, currentSpriteRenderer.sprite);
+                
                 if (columnsMatches.Count >= 2)
                 {
                     matchedTiles.UnionWith(columnsMatches);
@@ -296,6 +298,8 @@ public class FieldManager : MonoBehaviour
 
     private IEnumerator SwapAnimation(Vector2Int tile0Index, Vector2Int tile1Index)
     {
+        IsSwapping = true;
+         
         SpriteRenderer tile0SpriteRenderer = GetSpriteRendererAt(tile0Index.x, tile0Index.y);
         SpriteRenderer tile1SpriteRenderer = GetSpriteRendererAt(tile1Index.x, tile1Index.y);
 
@@ -331,5 +335,13 @@ public class FieldManager : MonoBehaviour
 
         tile0SpriteRenderer.gameObject.SetActive(true);
         tile1SpriteRenderer.gameObject.SetActive(true);
+
+        IsSwapping = false;
+    }
+    
+    private Vector2 GetSpriteShift(Sprite sprite)
+    {
+        var bounds = sprite.bounds;
+        return new Vector2(bounds.extents.x, bounds.extents.y);
     }
 }

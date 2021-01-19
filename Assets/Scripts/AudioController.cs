@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
@@ -51,7 +49,7 @@ public class AudioController : MonoBehaviour
 
    private void PlayGameOverSound()
    {
-      audioSource.clip = GameController._isGameOver ? dictionaryOfSounds["game_over"] : dictionaryOfSounds["you_win"];
+      audioSource.clip = GameController.IsGameOver ? dictionaryOfSounds["game_over"] : dictionaryOfSounds["you_win"];
       audioSource.Play();
    }
 

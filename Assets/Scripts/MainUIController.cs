@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MainUIController : MonoBehaviour
 {
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private MovesManager movesManager;
-    
+
+    [SerializeField] private SpriteRenderer background;
+    [SerializeField] private List<Sprite> listOfBackgroundSprites; 
+
     [SerializeField] private Text lblScore;
     [SerializeField] private Text lblGoal;
     [SerializeField] private Text lblGameOver;
     [SerializeField] private Text lblMoves;
 
     [SerializeField] private Button btnRestart;
+    [SerializeField] private Button btnExit;
 
     private void OnEnable()
     {
@@ -27,6 +27,7 @@ public class MainUIController : MonoBehaviour
     private void Start()
     {
         TextInit();
+        background.sprite = listOfBackgroundSprites[Random.Range(0, listOfBackgroundSprites.Count)];
     }
 
     private void TextInit()
@@ -35,14 +36,23 @@ public class MainUIController : MonoBehaviour
         lblGoal.text = $"Goal:\n{scoreManager.Goal}";
         lblMoves.text = $"Moves:\n{movesManager.AvailableMovesCount}";
         lblGameOver.text = "";
+        
         Text lblRestart = btnRestart.GetComponentInChildren(typeof(Text)) as Text;
         lblRestart.text = "Restart";
+        
+        Text btnExit = this.btnExit.GetComponentInChildren(typeof(Text)) as Text;
+        btnExit.text = "Exit";
+    }
+
+    public void SetPauseUI()
+    {
+        btnExit.gameObject.SetActive(GameController.IsOnPause);
     }
 
     public void SetGameOverUI()
     {
         HideUI();
-        lblGameOver.text = movesManager.AvailableMovesCount == 0 ? "Game Over" : $"You win!\nMoves left: {movesManager.AvailableMovesCount}";
+        lblGameOver.text = GameController.IsGameOver ? "Game Over" : $"You win!\nMoves left: {movesManager.AvailableMovesCount}";
         lblGameOver.gameObject.SetActive(true);
         btnRestart.gameObject.SetActive(true);
     }

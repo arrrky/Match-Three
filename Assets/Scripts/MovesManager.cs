@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovesManager : MonoBehaviour
@@ -29,7 +27,7 @@ public class MovesManager : MonoBehaviour
         
         if (AvailableMovesCount == 0)
         {
-            GameController._isGameOver = true;
+            GameController.IsGameOver = true;
             OnLastMove();
         }
     }

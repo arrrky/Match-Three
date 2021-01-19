@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
@@ -11,7 +10,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private MovesManager movesManager;
     [SerializeField] private MainUIController mainUIController;
 
-    public static bool _isGameOver;
+    public static bool IsGameOver;
+    public static bool IsOnPause;
     public static event Action GameOver;
 
     private void OnEnable()
@@ -20,9 +20,22 @@ public class GameController : MonoBehaviour
         movesManager.LastMove += GameOverActions;
     }
 
+    private void Update()
+    {
+        CheckInput();
+    }
+
+    private void CheckInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            IsOnPause = !IsOnPause;
+            mainUIController.SetPauseUI();
+        }
+    }
+
     private void GameOverActions()
     {
-        Debug.Log("Game Over!");
         OnGameOver();
         fieldManager.EraseField();
         fieldManager.gameObject.SetActive(false);
@@ -33,6 +46,11 @@ public class GameController : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     private void OnGameOver()
