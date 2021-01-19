@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class MovesManager : MonoBehaviour
 {
-    [SerializeField] private FieldManager fieldManager;
-    
     [SerializeField] [Range(5, 100)] private int maxMovesCount = 100;
 
     public event Action AvailableMovesCountUpdated;
@@ -16,7 +14,7 @@ public class MovesManager : MonoBehaviour
 
     private void OnEnable()
     {
-        fieldManager.TilesSwapped += DecreaseMovesCount;
+        FieldManager.TilesSwapped += DecreaseMovesCount;
     }
 
     private void Awake()
@@ -31,6 +29,7 @@ public class MovesManager : MonoBehaviour
         
         if (AvailableMovesCount == 0)
         {
+            GameController._isGameOver = true;
             OnLastMove();
         }
     }
@@ -47,6 +46,6 @@ public class MovesManager : MonoBehaviour
 
     private void OnDisable()
     {
-        fieldManager.TilesSwapped += DecreaseMovesCount;
+        FieldManager.TilesSwapped += DecreaseMovesCount;
     }
 }

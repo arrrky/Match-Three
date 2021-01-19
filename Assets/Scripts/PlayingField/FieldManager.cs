@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
+    [SerializeField] private ScoreManager scoreManager;
 
     #region TilesPrefabs
 
@@ -38,7 +39,7 @@ public class FieldManager : MonoBehaviour
     private bool isShifting;
 
     public event Action<int> MatchesFound;
-    public event Action TilesSwapped;
+    public static event Action TilesSwapped;
 
     private void Awake()
     {
@@ -169,6 +170,9 @@ public class FieldManager : MonoBehaviour
         {
             do
             {
+                if (scoreManager.Score >= scoreManager.Goal)
+                    return;   
+                
                 OnMatchesFound(GetMatchesCount());
                 UpdateField();
             } while (GetMatchesCount() > 0);
@@ -217,7 +221,7 @@ public class FieldManager : MonoBehaviour
         {
             spriteRenderer.sprite = null;
         }
-
+        
         return matchedTiles.Count;
     }
 
@@ -304,8 +308,8 @@ public class FieldManager : MonoBehaviour
         GameObject prefab0ToInstall = prefabs[tile0SpriteRenderer.sprite.name];
         GameObject prefab1ToInstall = prefabs[tile1SpriteRenderer.sprite.name];
 
-        GameObject tempTile0 = Instantiate(prefab0ToInstall, tile0Position, Quaternion.identity);
-        GameObject tempTile1 = Instantiate(prefab1ToInstall, tile1Position, Quaternion.identity);
+        GameObject tempTile0 = Instantiate(prefab0ToInstall, tile0Position, Quaternion.identity, this.transform);
+        GameObject tempTile1 = Instantiate(prefab1ToInstall, tile1Position, Quaternion.identity, this.transform);
       
         float currentTime = 0;
 

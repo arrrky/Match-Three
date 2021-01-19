@@ -22,6 +22,8 @@ public class TileController : MonoBehaviour
     
     private const float BlinkTime = 0.3f;
     
+    private List<GameObject> nearTiles = new List<GameObject>();
+
     private readonly List<Vector2> rayDirection = new List<Vector2>
     {
         Vector2.up,
@@ -30,7 +32,8 @@ public class TileController : MonoBehaviour
         Vector2.right
     };
 
-    private List<GameObject> nearTiles = new List<GameObject>();
+    public static event Action TileClicked;
+    public static event Action WrongTileClicked;
 
     private void Start()
     {
@@ -39,6 +42,7 @@ public class TileController : MonoBehaviour
 
     private void OnMouseDown()
     {
+        OnTIleClicked();
         if (_selectedTile == this)
         {
             HighlightNearTiles();
@@ -56,6 +60,7 @@ public class TileController : MonoBehaviour
             }
             else
             {
+                OnWrongTileClicked();
                 StartErrorColorBlinkRoutine(this);
             }
 
@@ -134,6 +139,16 @@ public class TileController : MonoBehaviour
             tile.gameObject.GetComponent<TileController>().SetColor(color);
         }
         _isHighlighted = !_isHighlighted;
+    }
+
+    private void OnTIleClicked()
+    {
+        TileClicked?.Invoke();
+    }
+
+    private void OnWrongTileClicked()
+    {
+        WrongTileClicked?.Invoke();
     }
 
 }

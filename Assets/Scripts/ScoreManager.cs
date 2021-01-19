@@ -33,6 +33,7 @@ public class ScoreManager : MonoBehaviour
 
         if (Score >= Goal)
         {
+            GameController._isGameOver = false;
             OnWinScoreReached();
         }
     }

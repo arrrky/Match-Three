@@ -11,14 +11,19 @@ public class GameController : MonoBehaviour
     [SerializeField] private MovesManager movesManager;
     [SerializeField] private MainUIController mainUIController;
 
+    public static bool _isGameOver;
+    public static event Action GameOver;
+
     private void OnEnable()
     {
-        scoreManager.WinScoreReached += GameOver;
-        movesManager.LastMove += GameOver;
+        scoreManager.WinScoreReached += GameOverActions;
+        movesManager.LastMove += GameOverActions;
     }
 
-    private void GameOver()
+    private void GameOverActions()
     {
+        Debug.Log("Game Over!");
+        OnGameOver();
         fieldManager.EraseField();
         fieldManager.gameObject.SetActive(false);
         mainUIController.SetGameOverUI();
@@ -30,9 +35,14 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
+    private void OnGameOver()
+    {
+        GameOver?.Invoke();
+    }
+
     private void OnDisable()
     {
-        scoreManager.WinScoreReached -= GameOver;
-        movesManager.LastMove -= GameOver;
+        scoreManager.WinScoreReached -= GameOverActions;
+        movesManager.LastMove -= GameOverActions;
     }
 }
